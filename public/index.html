@@ -5,8 +5,10 @@
 	
 	<style type="text/css">
 		body{
-			height:100%;
-			width:100%;
+			
+			font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+			color:white;
+			
 			
 			background: #b8e1fc; /* Old browsers */
 			background: -moz-linear-gradient(top, #b8e1fc 0%, #a9d2f3 10%, #90bae4 25%, #90bcea 37%, #90bff0 50%, #6ba8e5 51%, #a2daf5 83%, #bdf3fd 100%); /* FF3.6+ */
@@ -18,16 +20,27 @@
 			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b8e1fc', endColorstr='#bdf3fd',GradientType=0 ); /* IE6-9 */
 		}
 		h1{
-			font-size:35px;
-			font-color:white;
+			font-size:60px;
+			
+			text-align:center;
+		}
+		#box-tag{
+			
+			height:300px;
+			width:300px;
+			margin-top:10%;
 		}
 		#input-demo{
-			width:40%;
 			height:50px;
 			font-size:30px;
+			padding:15px;
+			border-radius:10px;
+			border:3px solid silver;
 		}
 		.center{
-			margin:30% auto auto;
+			margin-left:auto;
+			margin-right:auto;
+			text-align:center;
 		}
 	</style>
 	
@@ -38,8 +51,9 @@
 </head>
 <body>
 	
-	<div id="center">
+	<div id="box-tag" class="center">
 		<h1>#nowplaying</h1>
+		<p class="center">Go ahead, tag a song</p>
 		<input type="text" id="input-demo"  />
 	</div>
 
