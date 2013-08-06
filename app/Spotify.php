@@ -5,7 +5,7 @@ class Spotify {
 	
 	static function track($q){
 		global $memcache_obj;
-		if( ($re = $memcache_obj->get( array($q) ) !== false ){
+		if( ($re = $memcache_obj->get(array($q)) ) !== false ){
 			return $re;
 		}
 		
