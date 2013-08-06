@@ -81,7 +81,7 @@ class Shash {
 	
 	static function normalizeTag(array $artists, $track=null, $album=null){
 		$re=array(0=>array());
-		foreach($artist as $p){
+		foreach($artists as $p){
 			$re[0][]=slug($p);
 		}
 		$re[0]=implode(', ',$re[0]);
