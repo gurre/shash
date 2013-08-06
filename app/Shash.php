@@ -75,7 +75,7 @@ class Shash {
 			$shash=self::normalizeTag( $artist, $t->name );	
 			$t->shash = "♫".$shash;
 			$t->tag = "$#".$shash;
-			$t->name = $t->artist . ' - ' . $t->name;
+			$t->name = $t->name;
 			$t->value = $t->shash;
 			if( !empty($t) )
 				$re[]=$t;
