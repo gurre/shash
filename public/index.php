@@ -1,5 +1,10 @@
 <?php
 
+spl_autoload_register(function ($class) {
+	if(file_exists('/usr/local/nowplaying/app/'.$class.'.php'))
+		require '/usr/local/nowplaying/app/'.$class.'.php';
+});
+
 class FrontControllerRouter {
 	
 	protected	$routes = array(),
