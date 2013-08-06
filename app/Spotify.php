@@ -17,7 +17,7 @@ class Spotify {
 		if( !isset($obj->tracks) || empty($obj->tracks) ){
 			return array();
 		}
-		$memcache->set($q, $obj->tracks, 0, 3600);
+		$memcache->set($q, $obj->tracks, MEMCACHE_COMPRESSED, 3600);
 		return $obj->tracks;
 	}
 	
