@@ -7,7 +7,7 @@
 if( isset($_GET['text']) && ($text=addslashes($_GET['text']))!==false ){
 	
 	$obj=Shash::tagsForText($text);
-	if( ($callback=$_GET["callback"]) !==false) ){
+	if( ($callback=$_GET["callback"]) !==false ){
 		header('Content-Type: application/javascript');
 		echo $callback.'('.json_encode($obj).')';
 	}else{
