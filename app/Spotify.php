@@ -1,10 +1,11 @@
 <?php
-$memcache = new Memcache;
-$memcache->connect('localhost', 11211);
+
 class Spotify {
 	
 	static function track($q){
-		global $memcache;
+		$memcache = new Memcache;
+		$memcache->connect('localhost', 11211);
+		
 		if( ($re = $memcache->get(array($q)) ) !== false ){
 			return $re;
 		}
