@@ -69,7 +69,7 @@ class Shash {
 			$t->artist = implode( ', ', $artist );
 			$t->name = ($song->name);
 			$t->href = $song->href;
-			$t->shash = self::normalizeTag( $t->artist, $t->name );
+			$t->shash = self::normalizeTag( $artist, $t->name );
 			if( !empty($t) )
 				$re[]=$t;
 		}
