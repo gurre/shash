@@ -20,7 +20,7 @@ class Shash {
 		$echonest = new EchoNest_Client();
 		$echonest->authenticate('BBMRBVEOASYLHY60X');
 		$songApi = $echonest->getSongApi();
-		$songs=$songApi->search( array('title'=>$text) );
+		$songs=$songApi->search( array('title'=>$text, 'results'=>20, 'bucket'=>'id:spotify tracks') );
 		print_r($songs);
 		if( !empty($songs) ){
 			return array();
