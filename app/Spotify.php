@@ -3,10 +3,10 @@
 class Spotify {
 	
 	static function track($q){
-		$memcache = new Memcache;
-		$memcache->connect('localhost', 11211);
+		$m = new Memcached();
+		$m->addServer('localhost', 11211);
 		
-		if( ($re = $memcache->get(array($q)) ) !== false ){
+		if( ($re = $m->get($q) ) !== false ){
 			return $re;
 		}
 		
@@ -18,7 +18,7 @@ class Spotify {
 		if( !isset($obj->tracks) || empty($obj->tracks) ){
 			return array();
 		}
-		$memcache->set($q, $obj->tracks, MEMCACHE_COMPRESSED, 3600);
+		$m->set($q, $obj->tracks, 3600);
 		return $obj->tracks;
 	}
 	
