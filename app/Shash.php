@@ -77,17 +77,6 @@ class Shash {
 		return $re;
 	}
 	
-	/*static function implode_key($glue, array $pieces, $key){
-		$re=null;
-		foreach($pieces as $p){
-			if(isset([$key])){
-				$re.=implode($glue,$p[$key]);
-			}
-			
-		}
-		return $re;
-	}*/
-	
 	static function normalizeTag(array $parts){
 		foreach($parts as &$p){
 			$part = strtolower($p);
