@@ -44,14 +44,62 @@ class Shash {
 			return array();
 		}*/
 		
-		$tracks=Spotify::track($text);
+		$re=array();
 		
-		foreach( $tracks as $song ){
+		$tracks=Spotify::track($text);
+		foreach( $tracks as &$song ){
+			$t=array();
 			list(, $type, $id)=explode(':', $song->href);
 			Redis::db()->hSetNx( "$type:".substr($id,0,2), substr($id,2), Redis::db()->incr('id') );
+			$artist=array();
+			foreach( $song->artists as &$a ){
+				list(, $type, $id)=explode(':', $a->href);
+				$int_id=Redis::db()->incr('id');
+				Redis::db()->hSetNx( "$type:".substr($a->id,0,2), substr($a->id,2), $int_id);
+				
+				$artist_tag=self::normalizeTag(array($a->name));
+				
+				Redis::db()->hSetNx( "tags".($int_id%12), $artist_tag, $int_id);
+				Redis::db()->hSetNx( "tags".($int_id%12), $int_id, $artist_tag);
+				
+				$artist[]=$a->name;
+				
+			}
+			$t->artists = $song->artists;
+			$t->artist = implode(', ',$artist);
+			$t->name = $song->name;
+			$t->shash = self::normalizeTag( array( $song->artists, $t->name ) );
+			$re[]=$t;
 		}
 		
-		return $tracks;
+		
+		
+		return $re;
 	}
+	
+	/*static function implode_key($glue, array $pieces, $key){
+		$re=null;
+		foreach($pieces as $p){
+			if(isset([$key])){
+				$re.=implode($glue,$p[$key]);
+			}
+			
+		}
+		return $re;
+	}*/
+	
+	static function normalizeTag(array $parts){
+		foreach($parts as &$p){
+			$part = strtolower($p);
+			$part = preg_replace('/&.+?;/', '', $part); // kill entities
+			$part = preg_replace('/[^a-z0-9 _-]/', '', $part);
+			$part = preg_replace('/\s+/', '', $part);
+			$part = preg_replace('|-+|', '', $part);
+			$part = trim($part, '-');
+			$p=ucfirst($part);
+		}
+		return implode('', $parts);
+	}
+	
 
 }
