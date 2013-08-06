@@ -55,7 +55,7 @@ class Shash {
 			foreach( $song->artists as &$a ){
 				list(, $type, $id)=explode(':', $a->href);
 				$int_id=Redis::db()->incr('id');
-				Redis::db()->hSetNx( "$type:".substr($a->id,0,2), substr($a->id,2), $int_id);
+				Redis::db()->hSetNx( "$type:".substr($a->href,0,2), substr($a->href,2), $int_id);
 				
 				$artist_tag=self::normalizeTag(array($a->name));
 				
@@ -69,7 +69,8 @@ class Shash {
 			$t->artist = implode(', ',$artist);
 			$t->name = $song->name;
 			$t->shash = self::normalizeTag( array( $song->artists, $t->name ) );
-			$re[]=$t;
+			if( !empty($t) )
+				$re[]=$t;
 		}
 		
 		
