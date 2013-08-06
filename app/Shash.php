@@ -93,8 +93,9 @@ class Shash {
 			}
 			$re[0]=implode('',$re[0]);
 		}
-		if($track!=null)
+		if($track!=null){
 			$re[1]=slug($track);
+		}
 		if($album!=null)
 			$re[2]=slug($album);
 		return implode('',$re);
