@@ -10,7 +10,7 @@ require 'Redis.php';
 class Shash {
 
 	static function spotifyIdForTag($spotify_id){
-		return Redis::db->hget($spotify_id);
+		return Redis::db()->hget($spotify_id);
 	}
 	
 	static function tagsForText($text){
