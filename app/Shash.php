@@ -65,6 +65,7 @@ class Shash {
 				$artist[]=$a->name;
 				
 			}
+			print_r($song);
 			$t->artists = $song->artists;
 			$t->artist = implode(', ',$artist);
 			$t->name = $song->name;
