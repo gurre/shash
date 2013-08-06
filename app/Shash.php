@@ -87,7 +87,7 @@ class Shash {
 			foreach($artists as $p){
 				$re[0][]=slug($p);
 			}
-			$re[0]=implode('',ucwords($re[0]));
+			$re[0]=implode('',$re[0]);
 		}
 		if($track!=null)
 			$re[1]=slug($track);
