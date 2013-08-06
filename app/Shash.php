@@ -80,13 +80,19 @@ class Shash {
 	}
 	
 	static function normalizeTag(array $artists, $track=null, $album=null){
-		$re=array(0=>array());
-		foreach($artists as $p){
-			$re[0][]=slug($p);
+		$re=array();
+		
+		if(!empty($artists)){
+			$re[0]=array();
+			foreach($artists as $p){
+				$re[0][]=slug($p);
+			}
+			$re[0]=implode(', ',$re[0]);
 		}
-		$re[0]=implode(', ',$re[0]);
-		$re[1]=slug($track);
-		$re[2]=slug($album);
+		if($track!=null)
+			$re[1]=slug($track);
+		if($album!=null)
+			$re[2]=slug($album);
 		return implode('-',$re);
 	}
 	
