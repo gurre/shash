@@ -69,7 +69,7 @@ class Shash {
 			$t->artist = implode( ', ', ucsmart($artist) );
 			$t->name = ($song->name);
 			$t->href = $song->href;
-			$t->shash = self::normalizeTag( array( ($t->artist), ($t->name) ) );
+			$t->shash = self::normalizeTag( array( $t->artist, $t->name ) );
 			if( !empty($t) )
 				$re[]=$t;
 		}
@@ -82,14 +82,14 @@ class Shash {
 	static function normalizeTag(array $parts){
 		foreach($parts as &$p){
 			$part = ucsmart($p);
-			$part = preg_replace('/&.+?;/', '', $part); // kill entities
+			$part = preg_replace('/&.+?;/', '', $p); // kill entities
 			$part = preg_replace('/[^a-z0-9 _-]/', '', $part);
 			$part = preg_replace('/\s+/', '', $part);
 			$part = preg_replace('|-+|', '', $part);
-			$part = trim($part, '-');
-			$p=ucfirst($part);
+			$p = trim($part, '-');
 		}
-		return implode('', $parts);
+		return $parts[0].'-'.$parts[1];
+		//return implode('', $parts);
 	}
 	
 
