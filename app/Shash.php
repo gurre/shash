@@ -23,7 +23,7 @@ tags : {
 
 
 require 'Redis.php';
-
+setlocale(LC_ALL, 'en_US.UTF8');
 
 class Shash {
 
@@ -87,18 +87,18 @@ class Shash {
 			foreach($artists as $p){
 				$re[0][]=slug($p);
 			}
-			$re[0]=implode(', ',$re[0]);
+			$re[0]=implode('',ucwords($re[0]));
 		}
 		if($track!=null)
 			$re[1]=slug($track);
 		if($album!=null)
 			$re[2]=slug($album);
-		return implode('-',$re);
+		return implode('',$re);
 	}
 	
 
 }
-setlocale(LC_ALL, 'en_US.UTF8');
+
 function slug($str, $replace=array(), $delimiter='') {
 	if( !empty($replace) ) {
 		$str = str_replace((array)$replace, ' ', $str);
@@ -106,7 +106,7 @@ function slug($str, $replace=array(), $delimiter='') {
 	$str = ucwords($str);
 	$clean = iconv('UTF-8', 'ASCII//TRANSLIT', $str);
 	$clean = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $clean);
-	$clean = strtolower(trim($clean, '-'));
+	$clean = trim($clean, '-');
 	$clean = preg_replace("/[\/_|+ -]+/", $delimiter, $clean);
 
 	return $clean;
