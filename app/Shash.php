@@ -48,7 +48,7 @@ class Shash {
 		
 		$tracks=Spotify::track($text);
 		foreach( $tracks as &$song ){
-			$t=array();
+			$t=new stdClass;
 			list(, $type, $id)=explode(':', $song->href);
 			Redis::db()->hSetNx( "$type:".substr($id,0,2), substr($id,2), Redis::db()->incr('id') );
 			$artist=array();
@@ -65,7 +65,6 @@ class Shash {
 				$artist[]=$a->name;
 				
 			}
-			print_r($song);
 			$t->artists = $song->artists;
 			$t->artist = implode(', ',$artist);
 			$t->name = $song->name;
