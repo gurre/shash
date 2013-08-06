@@ -53,6 +53,7 @@ class FrontControllerRouter {
 
 $router=new FrontControllerRouter('54.217.222.192');
 $router->addRoute('GET','/v0/tags',function(){
+	header('Content-Type: application/json');
 	require '/usr/local/nowplaying/app/query.php';
 });
 $router->doRouting();
