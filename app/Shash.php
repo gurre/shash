@@ -79,21 +79,27 @@ class Shash {
 		return $re;
 	}
 	
-	static function normalizeTag(array $parts){
-		foreach($parts as &$p){
-			$part = ucsmart($p);
-			$part = preg_replace('/&.+?;/', '', $p); // kill entities
-			$part = preg_replace('/[^a-z0-9 _-]/', '', $part);
-			$part = preg_replace('/\s+/', '', $part);
-			$part = preg_replace('|-+|', '', $part);
-			$p = trim($part, '-');
+	static function normalizeTag(array $artists, $track, $album){
+		$re=array();
+		foreach($artist as $p){
+			$re[0]=slug($p);
 		}
-		return $parts[0].'-'.$parts[1];
-		//return implode('', $parts);
+		$re[1]=slug($track);
+		$re[2]=slug($album);
+		return implode('-',$re);
 	}
 	
 
 }
-function ucsmart($text){
-	return preg_replace('/([^a-z\']|^)([a-z])/e', '"$1".strtoupper("$2")',strtolower($text));
+setlocale(LC_ALL, 'en_US.UTF8');
+function slug($str, $replace=array(), $delimiter='') {
+	if( !empty($replace) ) {
+		$str = str_replace((array)$replace, ' ', $str);
+	}
+	$clean = iconv('UTF-8', 'ASCII//TRANSLIT', $str);
+	$clean = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $clean);
+	$clean = strtolower(trim($clean, '-'));
+	$clean = preg_replace("/[\/_|+ -]+/", $delimiter, $clean);
+
+	return $clean;
 }
