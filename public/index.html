@@ -2,38 +2,37 @@
 <head>
 	<title>Shash - tags for Spotify</title>
 	
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="http://twitter.github.com/hogan.js/builds/2.0.0/hogan-2.0.0.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="http://twitter.github.com/hogan.js/builds/2.0.0/hogan-2.0.0.js"></script>
 
-    <script type='text/javascript' src='typeahead.js'></script>
+	<script type='text/javascript' src='typeahead.js'></script>
 	
-    <script type="text/javascript">
+	<script type="text/javascript">
 
         
    
-    $(document).ready(function(){  
-        $('#input-demo').typeahead([
-            {
-                name: 'shash',
-                remote: 'http://54.217.222.192/v0/tags?text=%QUERY&callback=?',
-                template: [                                                                 
-                '<p class="text">{{text}}</p>', 
-                '<p class="name">{{name}}</p>'                             
-                                                     
-                ].join(''),                                          
-                engine: Hogan    
-            }
+	$(document).ready(function(){  
+		$('#input-demo').typeahead([
+			{
+				name: 'shash',
+				remote: 'http://54.217.222.192/v0/tags?text=%QUERY&callback=?',
+				template: [
+					'<p class="text">{{text}}</p>', 
+					'<p class="name">{{name}}</p>'
+				].join(''),
+				engine: Hogan    
+			}
                    
-        ]);
+			]);
         
-        });
-	</script>
+		});
+		</script>
  
     
     
     
     
-	<style type="text/css">
+		<style type="text/css">
 		body{
 
 			font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
@@ -56,23 +55,27 @@
 		#box-tag{
 
 			height:300px;
-			width:500px;
+			width:600px;
 			margin-top:10%; 
 		}
+		
+		#input-demo{
+			width:100%;
+		}
         
-        .center{
+		.center{
 			margin-left:auto;
 			margin-right:auto;
 			text-align:center;
 		}
         
-        .tt-query{
+		.tt-query{
 			background:;
-            height:300px;
+			height:300px;
 			width:500px;
 			margin-top:10%;
 		}
-        .tt-hint{
+		.tt-hint{
 			visibility:hidden;
 		}
         
@@ -82,50 +85,50 @@
 			padding:15px;
 			border-radius:10px;
 			border:3px solid silver;
-            background:white;
+			background:white;
 		}
 		
-        .tt-dropdown-menu{
-            background:white;
-            color:black;
-            height:auto;
-            width:500px;
+		.tt-dropdown-menu{
+			background:white;
+			color:black;
+			height:auto;
+			width:500px;
 			font-size:15px;
 			border-radius:10px;
-            text-align:left;
-            padding-left:10px;   
+			text-align:left;
+			padding-left:10px;   
 		}
-         .tt-dataset-{
+		.tt-dataset-{
             
           
 		}
-        .tt-suggestions{
+		.tt-suggestions{
           
 		}
-        .tt-suggestion{
+		.tt-suggestion{
            
 		}
-        .tt-is-under-cursor{
-            color:green;
-            font-weight:bold;  
+		.tt-is-under-cursor{
+			color:green;
+			font-weight:bold;  
 		}
-       .twitter-typeahead{
-            height:100px;
-            width:500px;
+		.twitter-typeahead{
+			height:100px;
+			width:500px;
             
 		}
         
         
-	</style>
+		</style>
 
 
-</head>
-<body>
+	</head>
+	<body>
     
-	<div id="box-tag" class="center">
-		<h1>S<strong>hash</strong></h1>
-		<p class="center">Go ahead, tag a song</p>
-		<input type="text" id="input-demo"  />
-	</div>
-</body>
-</html>
+		<div id="box-tag" class="center">
+			<h1>S<strong>hash</strong></h1>
+			<p class="center">Go ahead, tag a song</p>
+			<input type="text" id="input-demo"  />
+		</div>
+	</body>
+	</html>
