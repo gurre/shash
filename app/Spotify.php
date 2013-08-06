@@ -1,11 +1,11 @@
 <?php
-$memcache_obj = new Memcache;
-$memcache_obj->connect('localhost', 11211);
+$memcache = new Memcache;
+$memcache->connect('localhost', 11211);
 class Spotify {
 	
 	static function track($q){
-		global $memcache_obj;
-		if( ($re = $memcache_obj->get(array($q)) ) !== false ){
+		global $memcache;
+		if( ($re = $memcache->get(array($q)) ) !== false ){
 			return $re;
 		}
 		
@@ -17,7 +17,7 @@ class Spotify {
 		if( !isset($obj->tracks) || empty($obj->tracks) ){
 			return array();
 		}
-		$memcache_obj->set($q, $obj->tracks, 0, 3600);
+		$memcache->set($q, $obj->tracks, 0, 3600);
 		return $obj->tracks;
 	}
 	
