@@ -3,25 +3,33 @@
 	<title>Shash - tags for Spotify</title>
 	
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://twitter.github.com/hogan.js/builds/2.0.0/hogan-2.0.0.js"></script>
+
     <script type='text/javascript' src='typeahead.js'></script>
-	<script type="text/javascript">
+	
+    <script type="text/javascript">
 
         
-        
-        
-      $(document).ready(function(){  
-$('#input-demo').typeahead([
-{
-name: 'planets',
-local: [ "Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune" ]
-}
-]);
+   
+    $(document).ready(function(){  
+        $('#input-demo').typeahead([
+            {
+                name: 'shash',
+                remote: 'http://54.217.222.192/v0/tags?text=%QUERY&callback=?',
+                template: [                                                                 
+                '<p class="text">{{text}}</p>', 
+                '<p class="name">{{name}}</p>'                             
+                                                     
+                ].join(''),                                          
+                engine: Hogan    
+            }
+                   
+        ]);
         
         });
 	</script>
  
     
-   
     
     
     
