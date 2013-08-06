@@ -1,6 +1,5 @@
 <?php
 
-require 'Shash.php';
 
 /*
 spotify_id -> tags
@@ -19,8 +18,9 @@ tags : {
 */
 
 
-if( isset($_GET['text']) && ($query=addslashes($_GET['text']))!==false ){
+if( isset($_GET['text']) && ($text=addslashes($_GET['text']))!==false ){
 	
-	Redis::db()->hExists();
+	Shash::tagsForText($text);
+	
 	
 }
