@@ -62,6 +62,8 @@ class Shash {
 				Redis::db()->hSetNx( "tags".($int_id%12), $artist_tag, $int_id);
 				Redis::db()->hSetNx( "tags".($int_id%12), $int_id, $artist_tag);
 				
+				$song->shash=$artist_tag;
+				
 				$artist[]=$a->name;
 				
 			}
