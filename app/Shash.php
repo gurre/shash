@@ -14,7 +14,8 @@ class Shash {
 	}
 	
 	static function tagsForText($text){
-		require '../app/php-echonest-api/lib/EchoNest/Client.php';
+		require '/usr/local/nowplaying/app/php-echonest-api/lib/EchoNest/Autoloader.php';
+		EchoNest_Autoloader::register();
 		
 		$echonest = new EchoNest_Client();
 		$echonest->authenticate('BBMRBVEOASYLHY60X');
