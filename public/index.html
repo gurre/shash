@@ -24,10 +24,207 @@
 				engine: Hogan    
 			}
                    
-			]);
+		]);
         
+		$('#input-demo').on('keypress',function(){
+			var input = escape($(this).text());
+			console.log("Raw: "+input);
+			input=input.replace(/%u266B/g,'$#');
+			input=unescape(input.replace(/%24%23/g,'$#'));
+			console.log("After replace: "+input);
+			var length = input.length,
+				matches = input.match(/\$\#[A-Za-z0-9\_]+/g);
+			if( matches && matches.length > 0 ){
+				console.log('shash! '+JSON.stringify(matches));
+				var tmp = input;
+				for (var i = 0; i < matches.length; i++) {
+					console.log('replace '+matches[i]);
+					//var newElement = document.createElement('span');
+					//newElement.className = 'prettylink';
+					//newElement.innerHTML = matches[i];
+					tmp = tmp.replace(matches[i],("<span class=\"shashtag\">"+(matches[i].replace(/\$\#/g,"&#x266b;"))+'</span>'));
+					//insertNodeOverSelection(newElement, $('#input-demo').get(0));
+				}
+				$('.shashtag').remove();
+				$('#input-demo').html(tmp);
+				//$('#input-demo').html($('#input-demo').html().replace(/\$\#/g,"&#x266b;"));
+				setEndOfContenteditable( $('#input-demo').get(0) );
+			}
+			
 		});
-		</script>
+		playbox = document.createElement('div');
+		playbox.id = 'playbox';
+		playbox.className = 'playbox';
+		document.body.appendChild(playbox);
+		
+		stillHoveringPlaybox = false;
+		
+		$(document).on('mouseenter', '.shashtag',function(e){
+			console.log('Enter shashtag');
+			
+			$('#playbox').html('<iframe src="https://embed.spotify.com/?uri=spotify:track:4bz7uB4edifWKJXSDxwHcs" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>');
+			ShowContent('playbox');
+			
+			var iframe = document.getElementById('playboxiframe');
+			iframe.src = iframe.src;
+			//console.log(e.target);
+		});
+		$(document).on('mouseleave', '.shashtag',function(e){
+			console.log('Leave shashtag');
+			/*setTimeout(function(){
+				if(!stillHoveringPlaybox){
+					HideContent('playbox');
+				}
+			},3000);*/
+		});
+		
+		
+		$(document).on('mouseenter', '#playbox',function(e){
+			console.log('Enter playboxiframe');
+			ShowContent('playbox');
+			stillHoveringPlaybox=true;
+		});
+		$(document).on('mouseleave', '#playbox',function(e){
+			console.log('Leave playboxiframe');
+			HideContent('playbox');
+			stillHoveringPlaybox=false;
+		});
+		
+	});
+	
+	var cX = 0; var cY = 0; var rX = 0; var rY = 0;
+	function UpdateCursorPosition(e){ cX = e.pageX; cY = e.pageY;}
+	function UpdateCursorPositionDocAll(e){ cX = event.clientX; cY = event.clientY;}
+	if(document.all) { document.onmousemove = UpdateCursorPositionDocAll; }
+	else { document.onmousemove = UpdateCursorPosition; }
+	function AssignPosition(d) {
+		if(self.pageYOffset) {
+			rX = self.pageXOffset;
+			rY = self.pageYOffset;
+		}
+		else if(document.documentElement && document.documentElement.scrollTop) {
+			rX = document.documentElement.scrollLeft;
+			rY = document.documentElement.scrollTop;
+		}
+		else if(document.body) {
+			rX = document.body.scrollLeft;
+			rY = document.body.scrollTop;
+		}
+		if(document.all) {
+			cX += rX; 
+			cY += rY;
+		}
+		d.style.left = (cX+10) + "px";
+		d.style.top = (cY+10) + "px";
+	}
+	function HideContent(d) {
+		if(d.length < 1) { return; }
+		document.getElementById(d).style.display = "none";
+	}
+	function ShowContent(d) {
+		if(d.length < 1) { return; }
+		var dd = document.getElementById(d);
+		AssignPosition(dd);
+		dd.style.display = "block";
+	}
+	function ReverseContentDisplay(d) {
+		if(d.length < 1) { return; }
+		var dd = document.getElementById(d);
+		AssignPosition(dd);
+		if(dd.style.display == "none") { dd.style.display = "block"; }
+		else { dd.style.display = "none"; }
+	}
+	
+	function setEndOfContenteditable(contentEditableElement)
+	{
+	    var range,selection;
+	    if(document.createRange)//Firefox, Chrome, Opera, Safari, IE 9+
+	    {
+	        range = document.createRange();//Create a range (a range is a like the selection but invisible)
+	        range.selectNodeContents(contentEditableElement);//Select the entire contents of the element with the range
+	        range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
+	        selection = window.getSelection();//get the selection object (allows you to change selection)
+	        selection.removeAllRanges();//remove any selections already made
+	        selection.addRange(range);//make the range you have just created the visible selection
+	    }
+	    else if(document.selection)//IE 8 and lower
+	    { 
+	        range = document.body.createTextRange();//Create a range (a range is a like the selection but invisible)
+	        range.moveToElementText(contentEditableElement);//Select the entire contents of the element with the range
+	        range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
+	        range.select();//Select the range (make it the visible selection
+	    }
+	}
+	
+	function isOrContainsNode(ancestor, descendant) {
+	    var node = descendant;
+	    while (node) {
+	        if (node === ancestor) return true;
+	        node = node.parentNode;
+	    }
+	    return false;
+	}
+
+	function insertNodeOverSelection(node, containerNode) {
+	    var sel, range, html;
+	    if (window.getSelection) {
+	        sel = window.getSelection();
+	        if (sel.getRangeAt && sel.rangeCount) {
+	            range = sel.getRangeAt(0);
+	            if (isOrContainsNode(containerNode, range.commonAncestorContainer)) {
+	                range.deleteContents();
+	                range.insertNode(node);
+	            } else {
+	                containerNode.appendChild(node);
+	            }
+	        }
+	    } else if (document.selection && document.selection.createRange) {
+	        range = document.selection.createRange();
+	        if (isOrContainsNode(containerNode, range.parentElement())) {
+	            html = (node.nodeType == 3) ? node.data : node.outerHTML;
+	            range.pasteHTML(html);
+	        } else {
+	            containerNode.appendChild(node);
+	        }
+	    }
+	}
+	
+	function pasteHtmlAtCaret(html) {
+	    var sel, range;
+	    if (window.getSelection) {
+	        // IE9 and non-IE
+	        sel = window.getSelection();
+	        if (sel.getRangeAt && sel.rangeCount) {
+	            range = sel.getRangeAt(0);
+	            range.deleteContents();
+
+	            // Range.createContextualFragment() would be useful here but is
+	            // non-standard and not supported in all browsers (IE9, for one)
+	            var el = document.createElement("div");
+	            el.innerHTML = html;
+	            var frag = document.createDocumentFragment(), node, lastNode;
+	            while ( (node = el.firstChild) ) {
+	                lastNode = frag.appendChild(node);
+	            }
+	            range.insertNode(frag);
+
+	            // Preserve the selection
+	            if (lastNode) {
+	                range = range.cloneRange();
+	                range.setStartAfter(lastNode);
+	                range.collapse(true);
+	                sel.removeAllRanges();
+	                sel.addRange(range);
+	            }
+	        }
+	    } else if (document.selection && document.selection.type != "Control") {
+	        // IE < 9
+	        document.selection.createRange().pasteHTML(html);
+	    }
+	}
+	
+	
+	</script>
  
     
     
@@ -62,6 +259,8 @@
 		
 		#input-demo{
 			width:100%;
+			color:black;
+			text-align:left;
 		}
         
 		.center{
@@ -131,6 +330,18 @@
 			float:right;
 			font-size:12px;
 		}
+		.shashtag{
+			color:#7ab800;
+			font-weight:bolder;
+		}
+		.playbox{
+			position:absolute;
+			z-index:1000;
+			width:300px;
+			height:80px;
+			display:block;
+			background-color:black;
+		}
 		</style>
 
 
@@ -140,7 +351,7 @@
 		<div id="box-tag" class="center">
 			<h1>S<strong>hash</strong></h1>
 			<p class="center">Go ahead, tag a song</p>
-			<input type="text" id="input-demo"  />
+			<div contenteditable="true" id="input-demo"></div>
 		</div>
 	</body>
 	</html>

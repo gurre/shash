@@ -18,7 +18,7 @@ class Spotify {
 		if( !isset($obj->tracks) || empty($obj->tracks) ){
 			return array();
 		}
-		$m->set($q, $obj->tracks, 3600);
+		$m->set($q, $obj->tracks, 7200);
 		return $obj->tracks;
 	}
 	
